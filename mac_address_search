@@ -1,0 +1,85 @@
+#!/usr/bin/env python
+import time
+from netmiko import ConnectHandler
+from netmiko.ssh_exception import NetMikoTimeoutException
+from paramiko.ssh_exception import SSHException
+from netmiko.ssh_exception import AuthenticationException
+from getpass import getpass
+from datetime import datetime
+
+#ENTER CREDENTIALS TO LOGIN TO DEVICES
+username = input("Enter username: ")
+password = getpass('Enter SSH password: ')
+mac = input("enter whole or partial mac address: ")
+branch = input("enter branch number e.g. hl0540 or dp0540: ")
+switch1 = ("sc" + branch + "-1.companyname.com")
+switch2 = ("sc" + branch + "-2.companyname.com")
+
+#COMMANDS TO BE USED TO GATHER INFORMATION FROM SWITCHES
+COMMAND_0  = ("show run | inc hostname")
+COMMAND_1  = ('show mac address-table | inc '+mac)
+subname = datetime.now().strftime("%Y%m%d-%H%M%S")
+
+#REFERENCE LIST OF SWITCHES TO BE CONTACTED
+#LOCATION TO OUPUT REPORT TO 
+reportname = "/REPORTS/FIND_MACS_AT_BRANCH_REPORT_"+ branch + subname+".csv" 
+list1 = [ switch1 , switch2 ]
+
+
+#NOTIFICATION THAT REPORT IS BEING OUTPUT TO ABOVE LISTED DIRECTORY 
+print ("Writing output to FIND_MACS_AT_BRANCH_REPORT.csv ...")
+time.sleep(1)
+
+##OPEN FILE TO BEGIN WRITING REPORT###
+file = open(reportname , 'w')
+
+# OPEN LIST REFERENCEE ABOVE
+
+
+#START LOOP TO CONNECT TO SWITCHES AND RUN COMMANDS 
+for x in list1:
+    host = x
+    iosv_l2 = {
+             'device_type':'cisco_ios',
+             'ip':host,
+             'username':username,
+             'password':password,
+           }
+    try:
+        net_connect = ConnectHandler(**iosv_l2)
+    except (AuthenticationException):
+        print ('Authentication failure: ' + HOST)
+        file.write('Authentication failure: ' + HOST)
+        continue
+    except (NetMikoTimeoutException):
+        print ('Timeout to device: ' + HOST)
+        file.write('Timeout to device: ' + HOST)
+        continue
+    except (EOFError):
+        print ('End of file while attempting device ' + HOST)
+        file.write('End of file while attempting device ' + HOST)
+        continue
+    except (SSHException):
+        print ('SSH Issue. Are you sure SSH is enabled? ' + HOST)
+        file.wrie('SSH Issue. Are you sure SSH is enabled?')
+        continue
+    except Exception as unknown_error:
+        print ('Some other error: ' + str(unknown_error) )
+        file.write('Some other error: ' + str(unknown_error) )
+        continue 
+    
+    output0 = net_connect.send_command(COMMAND_0)
+    print (output0[9:20])
+    file.write (output0[9:20] + '\n')
+    file.write(" ")
+    file.write(" ")
+    output1 = net_connect.send_command(COMMAND_1)
+    print (output1)
+    file.write (output1 + '\n')
+    file.write(" ")
+    net_connect.send_command('end\n')
+    time.sleep(1)
+#CLOSE FILE 
+file.close()
+#NOTIFICATION THAT THE FILE HAS BEEN CLOSED ####
+print ("Report saved to Reports directory...")
