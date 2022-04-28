@@ -1,13 +1,6 @@
 #! /usr/bin/env python
 from getpass import getpass
-#import csv
-#from jinja2 import Template
 from netmiko import ConnectHandler
-#from netmiko.ssh_exception import NetMikoTimeoutException
-#from netmiko.ssh_exception import SSHException
-#from netmiko.ssh_exception import AuthenticationException
-#from netmiko import SCPConn
-from datetime import datetime
 
 username = input("Enter username:")
 password = getpass("Enter password: ")
@@ -33,6 +26,8 @@ print("config t")
 output2 = net_connect.send_command_timing("configure terminal")
 print(output2)
 print(" no crypto pki trustpoing DNAC-CA")
+
+#remove old cert ######
 output3 = net_connect.send_command_timing("no crypto pki trustpoint DNAC-CA")
 print(output3)
 print("yes")
@@ -46,7 +41,7 @@ print ( " DNAC cert has been removed ")
 
 
 
-#add new cert here ########
+#add new cert ########
 config_commands6 = ['crypto pki trustpoint DNAC-CA' ,  
                     'enrollment mode ra ',
                     'enrollment terminal' ,
