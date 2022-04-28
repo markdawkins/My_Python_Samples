@@ -2,7 +2,7 @@
 from netmiko import ConnectHandler
 from getpass import getpass
 
-sitename = input("Enter switch hostname schlxxxx or scdpxxxx: ")
+sitename = input("Enter switch hostname or IP : ")
 ha = input("Enter complete or partial mac address: ")
 username = input("Enter username: ")
 password = getpass()
