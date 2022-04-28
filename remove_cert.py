@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 from getpass import getpass
 from netmiko import ConnectHandler
-from datetime import datetime
+
 
 username = input("Enter username:")
 password = getpass("Enter password: ")
