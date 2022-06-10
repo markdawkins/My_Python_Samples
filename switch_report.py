@@ -7,7 +7,7 @@ logdate = datetime.now().strftime("%b")
 
 host = input("Enter Host/IP: ")
 commands = ['term length 0', 'show int status | inc connected' , 'show int status | count  connected' , 'show mac address-table  | inc DYNAMIC'
-,'show mac address-table  | count DYNAMIC' , 'show cdp nei | inc AP|ap' , 'show ip int brie | exc unassigned'  ,'show ver | inc Version' , 'show run' , 'show log | inc ' + logdate ]
+,'show mac address-table  | count DYNAMIC' , 'show cdp nei | inc AP|ap' , 'show ip int brie | exc unassigned'  ,'show inventory' , 'show ver | inc Version' , 'show run' , 'show log | inc ' + logdate ]
 
 outputFileName = host +'_'+ subname +'_output.txt'
 
@@ -31,6 +31,5 @@ with open("/Users/014mdawkins/Documents/SWITCH_REPORTS/"+  outputFileName, 'w') 
                 f.write("\n")
                 f.write(output)
              
-    
 net_connect.send_command('end\n')
 time.sleep(2)
