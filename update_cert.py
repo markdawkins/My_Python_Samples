@@ -25,7 +25,7 @@ print(output1)
 print("config t")
 output2 = net_connect.send_command_timing("configure terminal")
 print(output2)
-print(" no crypto pki trustpoing DNAC-CA")
+print(" no crypto pki trustpoint DNAC-CA")
 
 #remove old cert ######
 output3 = net_connect.send_command_timing("no crypto pki trustpoint DNAC-CA")
