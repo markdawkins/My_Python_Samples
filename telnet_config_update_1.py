@@ -4,6 +4,12 @@ import getpass
 import sys
 import telnetlib
 
+
+LIST = input("Enter List Name:")
+listname = "/LISTS/%s.txt"  % LIST
+f = open (listname)
+
+
 HOST = input("Enter host name")
 user = input("Enter your telnet username: ")
 password = getpass.getpass()
