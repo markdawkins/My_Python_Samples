@@ -4,22 +4,18 @@ import getpass
 import sys
 import telnetlib
 
-LIST = input("Enter List Name:")
-listname = "./LISTS/%s.txt"  % LIST
-f = open (listname)
-
-
-#HOST = input("Enter host name: ")
 user = input("Enter your telnet username: ")
 password = getpass.getpass()
 
+LIST = input("Enter List Name: ")
+listname = "./LISTS/%s.txt"  % LIST
+f = open (listname)
 
-# USE AS REFERENCE TO PICK HOSTS FROM LIST ##
 for line in f:
-    HOST = line 
-    #port = 23
-    #timeout = 100 
+    HOST = line
+    print ("Configuring Switch") 
     tn = telnetlib.Telnet(HOST)
+    
     tn.read_until(b"Username: ")
     tn.write(user.encode('ascii') + b"\n")
     if password:
