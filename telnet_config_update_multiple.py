@@ -13,7 +13,7 @@ f = open (listname)
 
 for line in f:
     HOST = line
-    print ("Configuring Switch") 
+    print ("Configuring Switch " + line) 
     tn = telnetlib.Telnet(HOST)
     
     tn.read_until(b"Username: ")
