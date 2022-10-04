@@ -12,7 +12,7 @@ listname = "./LISTS/%s.txt"  % LIST
 f = open (listname)
 
 for line in f:
-    HOST = line
+    HOST = line.strip()
     print ("Configuring Switch " + line) 
     tn = telnetlib.Telnet(HOST)
     
