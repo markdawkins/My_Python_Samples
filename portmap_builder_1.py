@@ -4,29 +4,34 @@ import warnings
 import numpy as np
 import pandas as pd
 from netmiko import ConnectHandler
-#import time 
+import time
+from getpass import getpass
+from datetime import datetime
+subname = datetime.now().strftime("%Y%m%d-%H%M%S")
+#logdate = datetime.now().strftime("%b")
 
 # Suppress specific warnings from numpy
 warnings.filterwarnings("ignore", category=UserWarning, module="numpy")
 
 # Prompt user for the host IP address
 host_ip = input("Enter the switch IP address: ")
-
+username = input("Enter the username: ")
+password = input("Enter switch password: ")
 # Define device information
 device = {
     'device_type': 'cisco_ios',
     'host': host_ip,
-    'username': 'your_username',
-    'password': 'your_password',
+    'username': username,
+    'password': password,
     'secret': 'your_enable_password',  # If enable password is needed
 }
 
 #FILENAME  this builds the file name to be used to name the css file
 #Ideal File Equation: Final file name = Host ip + port map + time + file extension
-FILENAME = host_ip + ”_port_map.csv”
+FILENAME = host_ip + subname + '_port_map.csv'
 
 # File path
-output_directory = '/Users/014mdawkins/Documents/SWITCH_REPORTS/PORT_MAPS'
+output_directory = '/home/mark/switch_reports/port_maps'
 output_file = os.path.join(output_directory, FILENAME)
 # Ensure the directory exists
 os.makedirs(output_directory, exist_ok=True)
