@@ -48,3 +48,9 @@ anonymous_enable=NO
 
 if __name__ == "__main__":
     install_vsftpd()
+
+#####Dont forget to make the  file to be executable  chmod +x install_vsftpd.py
+#####sudo python3 install_vsftpd.py
+
+
+
