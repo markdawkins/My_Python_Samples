@@ -1,3 +1,4 @@
+
 import paramiko
 import getpass
 
@@ -14,17 +15,15 @@ def connect_and_show_ltm(host, username, password):
         client.connect(hostname=host, username=username, password=password)
         print("Connected successfully.")
 
-        # Open an interactive shell and run bash command followed by ls -l
-        stdin, stdout, stderr = client.exec_command("bash -c 'ls -l' && 'curl -o /shared/backup.py https://librenms.sys.testsite.com/f5/backup.py' && 'chmod +x /shared/backup.py' && 'crontab -l | tee /shared/crontab.backup '  && '(crontab -l | sed -e '/backup\.[sh|py]/ s/^#*/#/' 2>/dev/null; echo "30 1 * * Mon,Thu,Sat /shared/backup.py >/dev/null 2>&1") | crontab -' &&  'crontab -l' ")
-        # Enter the following command in bash
-        #stdin, stdout, stderr = client.exec_command("bash -c 'ls -l' ")
-        # Enter the following command in bash
-        #stdin, stdout, stderr = client.exec_command("bash -c 'ls -l' ")
-        # Enter the following command in bash
-        ## Enter the following command in bash
-        #stdin, stdout, stderr = client.exec_command("bash -c 'ls -l'")
-        # Enter the following command in bash
-        #stdin, stdout, stderr = client.exec_command("bash -c 'ls -l'")
+        # Execute the command
+        stdin, stdout, stderr = client.exec_command(
+            "bash -c 'ls -l && "
+            "curl -o /shared/backup.py https://librenms.sys.testsite.com/f5/backup.py && "
+            "chmod +x /shared/backup.py && "
+            "crontab -l | tee /shared/crontab.backup && "
+            "(crontab -l | sed -e \"/backup\\.[sh|py]/ s/^#*/#/\" 2>/dev/null; echo \"30 1 * * Mon,Thu,Sat /shared/backup.py >/dev/null 2>&1\") | crontab - && "
+            "crontab -l'"
+        )
 
         # Read and print the output of the command
         output = stdout.read().decode()
@@ -59,4 +58,4 @@ if __name__ == "__main__":
     f5_password = getpass.getpass("Enter your password: ")
 
     # Connect to the F5 and show LTM configuration
-    connect_and_show_ltm(f5_host, f5_username, f5_password)
+    connect_and_show_ltm(f5_host, f5_username, f5_password)       
