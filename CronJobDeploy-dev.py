@@ -1,4 +1,4 @@
-mport paramiko
+import paramiko
 import getpass
 import time 
 
