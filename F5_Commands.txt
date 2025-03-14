@@ -1,0 +1,9 @@
+
+Search for a list of virtual servers with starting with the letter EPA 
+
+tmsh:
+tmsh list ltm virtual | grep -i 'ltm virtual EPA'
+
+bash:
+tmsh list ltm virtual | grep -i 'ltm virtual EPA' | awk '{print $3}'
+
