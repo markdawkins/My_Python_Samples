@@ -1,4 +1,26 @@
 
+
+#####If You're Using the Web GUI:
+Log in to your F5 BIG-IP Web UI.
+
+In the left-hand menu, go to: Local Traffic > Virtual Servers > Virtual Server List.
+
+At the top-right of the list, there’s a search/filter box.
+
+Enter this in the filter box:
+
+Copy code
+EPA*
+or just:
+
+nginx
+Copy code
+EPA
+This will filter and show virtual servers whose names begin with "EPA".
+
+The search is usually case-sensitive depending on version, so if “epa” doesn’t work, try “EPA”.
+
+
 Search for a list of virtual servers with starting with the letter EPA 
 
 tmsh:
