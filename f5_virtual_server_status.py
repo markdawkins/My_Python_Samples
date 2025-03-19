@@ -1,9 +1,8 @@
 import paramiko
 import getpass
+import time
 
 def get_virtual_server_status(hostname, username, password, virtual_name):
-    command = f"tmsh show ltm virtual {virtual_name}"
-
     try:
         # SSH setup
         client = paramiko.SSHClient()
@@ -11,19 +10,28 @@ def get_virtual_server_status(hostname, username, password, virtual_name):
         print(f"Connecting to {hostname}...")
         client.connect(hostname, username=username, password=password, timeout=10)
 
-        # Execute command
-        stdin, stdout, stderr = client.exec_command(command)
-        output = stdout.read().decode()
-        error = stderr.read().decode()
+        # Open shell
+        shell = client.invoke_shell()
+        time.sleep(1)
+        shell.recv(1000)  # Clear banner
 
-        # Check for errors
-        if "was not found" in output or error:
-            print(f"❌ Virtual server '{virtual_name}' not found or error occurred.")
-            if error:
-                print("Error:", error.strip())
+        # Enter bash
+        shell.send("run /util bash\n")
+        time.sleep(1)
+        shell.recv(1000)
+
+        # Run the tmsh command from within bash
+        tmsh_command = f"tmsh show ltm virtual {virtual_name}\n"
+        shell.send(tmsh_command)
+        time.sleep(2)
+        output = shell.recv(5000).decode()
+
+        # Check if not found or error
+        if "was not found" in output:
+            print(f"❌ Virtual server '{virtual_name}' not found.")
             return
 
-        # Parse and print result
+        # Parse and print status
         print(f"\n✅ Status for virtual server '{virtual_name}':\n")
         for line in output.splitlines():
             if "Availability" in line or "State" in line:
