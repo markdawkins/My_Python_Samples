@@ -1,3 +1,4 @@
+
 import paramiko
 import getpass
 
@@ -10,11 +11,11 @@ def get_pool_members(hostname, username, password, pool_name):
         print(f"\n[+] Connecting to {hostname}...")
         ssh.connect(hostname, username=username, password=password)
 
-        # Open shell and run TMSH command
-        command = f"tmsh list ltm pool {pool_name}"
+        # Construct command to run inside bash
+        tmsh_cmd = f"bash -c 'tmsh list ltm pool {pool_name}'"
 
-        print(f"[+] Searching for pool '{pool_name}'...")
-        stdin, stdout, stderr = ssh.exec_command(command)
+        print(f"[+] Entering bash and searching for pool '{pool_name}'...")
+        stdin, stdout, stderr = ssh.exec_command(tmsh_cmd)
         output = stdout.read().decode()
         error = stderr.read().decode()
 
