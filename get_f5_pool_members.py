@@ -1,4 +1,3 @@
-########pip install requests  ##########
 import requests
 import urllib3
 from getpass import getpass
@@ -10,6 +9,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 f5_host = input("F5 Management IP or Hostname: ")
 username = input("Username: ")
 password = getpass("Password: ")
+pool_name = input("Enter the pool name to search for: ")
 
 # Base URL for API
 base_url = f"https://{f5_host}/mgmt/tm"
@@ -20,8 +20,8 @@ session.auth = (username, password)
 session.verify = False
 session.headers.update({'Content-Type': 'application/json'})
 
-# Find the pool named "EPA"
-def find_pool(pool_name="EPA"):
+# Find the pool
+def find_pool(pool_name):
     url = f"{base_url}/ltm/pool"
     response = session.get(url)
     response.raise_for_status()
@@ -36,6 +36,7 @@ def find_pool(pool_name="EPA"):
 
 # List members of the given pool
 def list_pool_members(pool_name):
+    # Partition is assumed to be /Common unless you specify otherwise
     url = f"{base_url}/ltm/pool/~Common~{pool_name}/members"
     response = session.get(url)
     if response.status_code == 404:
@@ -50,7 +51,6 @@ def list_pool_members(pool_name):
 
 # Main
 if __name__ == "__main__":
-    pool_name = "EPA"
     pool = find_pool(pool_name)
     if pool:
         list_pool_members(pool_name)
