@@ -36,8 +36,8 @@ def f5_ssh_login(host, username, password, port=22):
         time.sleep(1)
 
         # Send the tmsh command
-        #command = "tmsh edit /sys sshd all-properties\n"
-        command = "show ip int brief\n" 
+        command = "list  /sys sshd all-properties\n"
+         
         shell.send(command)
 
         # Wait for command execution
