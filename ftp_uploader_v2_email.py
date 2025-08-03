@@ -21,7 +21,7 @@ MAX_WAIT_TIME = 3600
 
 # Email Configuration
 EMAIL_SENDER = "code.lab.072025@gmail.com"
-EMAIL_RECEIVER = "mark.dawkins@gmail.com"
+EMAIL_RECEIVER = "username@gmail.com"
 EMAIL_SUBJECT = "FTP Upload Script Completion"
 EMAIL_BODY = "All file uploads completed"
 SMTP_SERVER = "smtp.gmail.com"
