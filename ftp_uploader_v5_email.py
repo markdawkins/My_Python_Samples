@@ -11,8 +11,8 @@ from watchdog.events import FileSystemEventHandler
 SOURCE_FOLDER = "/home/mark/Downloads/qbitdownloads"
 FTP_SERVER = "192.168.1.199"
 FTP_FOLDER = "/mnt/mydisk/media/vids2"
-FTP_USER = "username"
-FTP_PASSWORD = "password"
+FTP_USER = "" #username
+FTP_PASSWORD = "" ##password
 CHECK_INTERVAL = 300
 CHUNK_SIZE = 65536
 MAX_RETRIES = 5
@@ -21,12 +21,12 @@ MIN_STABLE_TIME = 120
 MAX_WAIT_TIME = 3600
 
 # Email Configuration
-EMAIL_SENDER = "code.lab.072025@gmail.com"
-EMAIL_RECEIVER = "code.lab.072025@gmail.com"
+EMAIL_SENDER = ""##"sender_email_eg_code.lab.072025@gmail.com"<<<<--- Change this >>>>
+EMAIL_RECEIVER = "" ###user@gmail.com" <<<<--- Change this >>>>
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-SMTP_USERNAME = "code.lab.072025@gmail.com"
-SMTP_PASSWORD = "APP-PASSWORD"  # Use an App Password if 2FA is enabled
+SMTP_USERNAME = ##"sender_email_eg_code.lab.072025@gmail.com"         <<<<--- Change this >>>>
+SMTP_PASSWORD = ##"" "1965 6361 jkmb qdzu sulp euzc 2025"  # Use an App Password if 2FA is enabled <<<<--- Change this >>>>
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
