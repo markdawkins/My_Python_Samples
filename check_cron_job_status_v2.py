@@ -1,6 +1,7 @@
 ##Checks cron job status 
 #!/usr/bin/env python3
 
+
 from netmiko import ConnectHandler
 import getpass
 from datetime import datetime
@@ -30,10 +31,14 @@ def main():
         conn = ConnectHandler(**device)
 
         print("Entering bash shell...")
-        conn.send_command("run util bash")
+
+        # FIX: use expect_string to handle dynamic prompts
+        conn.send_command("run util bash", expect_string=r"#")
 
         print("\nRunning: crontab -l\n")
-        output = conn.send_command("crontab -l")
+
+        # FIX: use generic bash prompt expectation
+        output = conn.send_command("crontab -l", expect_string=r"#")
 
         # Prepare formatted output with hostname at the top
         header = f"=== Cron Job Status for {f5_host} ===\n\n"
